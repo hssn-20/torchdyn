@@ -30,7 +30,7 @@ class DEFuncBase(nn.Module):
     def forward(self, t: Tensor, x: Tensor, args: Dict = {}) -> Tensor:
         self.nfe += 1
         if self.has_time_arg:
-            return self.vf(t, x, args=args)
+            return self.vf(timestep = t, x, args=args)
         else:
             return self.vf(x, timestep=1.0)
 
