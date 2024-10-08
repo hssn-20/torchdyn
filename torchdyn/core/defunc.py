@@ -30,9 +30,9 @@ class DEFuncBase(nn.Module):
     def forward(self, t: Tensor, x: Tensor, args: Dict = {}) -> Tensor:
         self.nfe += 1
         if self.has_time_arg:
-            return self.vf(x, timestep = t,args=args)['UNet1DOutput']
+            return self.vf(x, timestep = t,args=args)['sample']
         else:
-            return self.vf(x, timestep=1.0)['UNet1DOutput']
+            return self.vf(x, timestep=1.0)['sample']
 
 
 class DEFunc(nn.Module):
@@ -71,9 +71,9 @@ class DEFunc(nn.Module):
             if len(dlds.shape) == 1:
                 dlds = dlds[:, None]
             if self.order > 1:
-                x_dyn = self.horder_forward(x_dyn, timestep=t, args=args)['UNet1DOutput']
+                x_dyn = self.horder_forward(x_dyn, timestep=t, args=args)['sample']
             else:
-                x_dyn = self.vf(x_dyn, timestep=t)['UNet1DOutput']
+                x_dyn = self.vf(x_dyn, timestep=t)['sample']
             return cat([dlds, x_dyn], 1).to(x_dyn)
 
         # regular forward
