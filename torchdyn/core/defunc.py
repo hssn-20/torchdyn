@@ -32,7 +32,7 @@ class DEFuncBase(nn.Module):
         if self.has_time_arg:
             return self.vf(t, x, args=args)
         else:
-            return self.vf(x)
+            return self.vf(x, timestep=1.0)
 
 
 class DEFunc(nn.Module):
@@ -73,7 +73,7 @@ class DEFunc(nn.Module):
             if self.order > 1:
                 x_dyn = self.horder_forward(t, x_dyn, args)
             else:
-                x_dyn = self.vf(t, x_dyn)
+                x_dyn = self.vf(x_dyn, timestep=t)
             return cat([dlds, x_dyn], 1).to(x_dyn)
 
         # regular forward
